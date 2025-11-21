@@ -2,10 +2,187 @@
 <html lang="fr">
 <head>
   <meta charset="utf-8">
-  <title>Carrousel Hockey Québec</title>
+  <title>Carrousel photos — Hockey Québec</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <style>
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #000;
+    }
+
+    .carousel {
+      position: relative;
+      max-width: 100%;
+      height: 420px; /* ajuste la hauteur au besoin */
+      overflow: hidden;
+    }
+
+    .carousel-track {
+      display: flex;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.4s ease;
+    }
+
+    .slide {
+      min-width: 100%;
+      height: 100%;
+    }
+
+    .slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .nav {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: space-between;
+      transform: translateY(-50%);
+      padding: 0 10px;
+      pointer-events: none;
+    }
+
+    .nav button {
+      background: rgba(0, 0, 0, 0.6);
+      color: #fff;
+      border: none;
+      padding: 6px 10px;
+      cursor: pointer;
+      pointer-events: auto;
+      font-size: 18px;
+    }
+
+    .dots {
+      position: absolute;
+      bottom: 10px;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .dots button {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      border: none;
+      background: rgba(255, 255, 255, 0.4);
+      cursor: pointer;
+      padding: 0;
+    }
+
+    .dots button.active {
+      background: #fff;
+    }
+  </style>
 </head>
 <body>
-  <h1>Test carrousel HQ</h1>
-  <p>Si tu vois cette page, GitHub Pages fonctionne ✅</p>
+  <div class="carousel" id="carousel">
+    <div class="carousel-track">
+      <div class="slide">
+        <img src="images/DSC_9612.JPG" alt="Coupe Chevrolet – Officiels 1">
+      </div>
+      <div class="slide">
+        <img src="images/_MG_2641.JPG" alt="Coupe Chevrolet – Officiels 2">
+      </div>
+      <div class="slide">
+        <img src="images/DSC09357.JPG" alt="Coupe Chevrolet – Officiels 3">
+      </div>
+      <div class="slide">
+        <img src="images/IMG_0387.JPG" alt="Coupe Chevrolet – Officiels 4">
+      </div>
+      <div class="slide">
+        <img src="images/_89A5645.JPG" alt="Coupe Chevrolet – Officiels 5">
+      </div>
+      <div class="slide">
+        <img src="images/PC5_0262.JPG" alt="Coupe Chevrolet – Officiels 6">
+      </div>
+      <div class="slide">
+        <img src="images/PC5_9457.JPG" alt="Coupe Chevrolet – Officiels 7">
+      </div>
+      <div class="slide">
+        <img src="images/PC5_0027.JPG" alt="Coupe Chevrolet – Officiels 8">
+      </div>
+      <div class="slide">
+        <img src="images/2025-04-M11AA-Final-0147.JPG" alt="Coupe Chevrolet – Officiels 9">
+      </div>
+      <div class="slide">
+        <img src="images/DSC_9446.JPG" alt="Coupe Chevrolet – Officiels 10">
+      </div>
+      <div class="slide">
+        <img src="images/A7401768.JPG" alt="Coupe Chevrolet – Officiels 11">
+      </div>
+      <div class="slide">
+        <img src="images/PC8_9119.JPG" alt="Coupe Chevrolet – Officiels 12">
+      </div>
+      <div class="slide">
+        <img src="images/_DHX6757.JPG" alt="Coupe Chevrolet – Officiels 13">
+      </div>
+      <div class="slide">
+        <img src="images/R6_L4953.JPG" alt="Coupe Chevrolet – Officiels 14">
+      </div>
+      <div class="slide">
+        <img src="images/DSCF4376.JPG" alt="Coupe Chevrolet – Officiels 15">
+      </div>
+      <div class="slide">
+        <img src="images/ERI26551.JPG" alt="Coupe Chevrolet – Officiels 16">
+      </div>
+    </div>
+
+    <div class="nav">
+      <button type="button" id="prev">&#10094;</button>
+      <button type="button" id="next">&#10095;</button>
+    </div>
+
+    <div class="dots" id="dots"></div>
+  </div>
+
+  <script>
+    const carousel = document.getElementById('carousel');
+    const track = carousel.querySelector('.carousel-track');
+    const slides = Array.from(track.children);
+    const prevBtn = document.getElementById('prev');
+    const nextBtn = document.getElementById('next');
+    const dotsContainer = document.getElementById('dots');
+
+    let index = 0;
+
+    // Création des petits points
+    slides.forEach((_, i) => {
+      const dot = document.createElement('button');
+      dot.addEventListener('click', () => goTo(i));
+      dotsContainer.appendChild(dot);
+    });
+    const dots = Array.from(dotsContainer.children);
+
+    function update() {
+      track.style.transform = `translateX(-${index * 100}%)`;
+      dots.forEach((d, i) => d.classList.toggle('active', i === index));
+    }
+
+    function goTo(i) {
+      index = (i + slides.length) % slides.length;
+      update();
+    }
+
+    prevBtn.addEventListener('click', () => goTo(index - 1));
+    nextBtn.addEventListener('click', () => goTo(index + 1));
+
+    // Auto-slide toutes les 5 secondes
+    setInterval(() => {
+      goTo(index + 1);
+    }, 5000);
+
+    // Init
+    update();
+  </script>
 </body>
 </html>
